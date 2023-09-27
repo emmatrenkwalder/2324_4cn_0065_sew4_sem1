@@ -4,42 +4,73 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WordCount {
-    public static void main(String[] args) {
 
-    }
-    public static String removeHtmlTags(String text) {
-        StringBuilder result = new StringBuilder();
-        boolean insideTag = false;
 
-        for (char c : text.toCharArray()) {
-            if (c == '<') {
-                insideTag = true;
-            } else if (c == '>') {
-                insideTag = false;
-            } else if (!insideTag) {
-                result.append(c);
+        public static long count(String s) {
+            // Ersetze HTML-Tags und alles zwischen ihnen durch Leerzeichen
+            s= s.replaceAll("<[^<>]+<[^<>]+>[^<>]+>"," ");
+
+            s = s.replaceAll("(<[^>]+>)|(<[^>]*$)", " ");
+
+
+            int counter = 0;
+            String[] meinArray = s.trim().split("\\W+");
+
+            for (int i = 0; i < meinArray.length; i++) {
+                String word = meinArray[i];
+                // Überprüfe, ob das Wort nur aus Buchstaben und Zahlen besteht
+                if (word.matches("[a-zA-Z0-9]+")) {
+                    counter++;
+                }
             }
 
+            return counter;
         }
-
-        System.out.println(result.toString());
-        return result.toString();
-    }
-
-    public static int count(String txt) {
-        // Entfernen Sie HTML-Tags
-        String textWithoutTags = removeHtmlTags(txt);
-
-        // Verwenden Sie regulären Ausdruck, um Wörter zu zählen
-        Pattern pattern = Pattern.compile("\\b[A-Za-z]+\\b");
-        Matcher matcher = pattern.matcher(textWithoutTags);
-
-        int wordCount = 0;
-        while (matcher.find()) {
-            wordCount++;
-        }
-
-        return wordCount;
-    }
 
 }
+
+
+
+        /*public static int count(String txt) {
+            // Use a regular expression to match words while ignoring HTML tags
+            Pattern pattern = Pattern.compile("(<[^>]+>)|(<[^>]*$)|([A-Za-z]+)");
+            Matcher matcher = pattern.matcher(txt);
+
+            int wordCount = 0;
+            boolean insideTag = false;
+
+            while (matcher.find()) {
+                String match = matcher.group();
+
+                if (match.startsWith("<")) {
+                    insideTag = true;
+                    System.out.println("test");
+                }
+
+                if (!insideTag && !match.startsWith("<")) {
+                    System.out.println(match);
+                    wordCount++;
+                }
+
+                if (match.endsWith(">") ) {
+                    insideTag = false;
+                }
+
+            }
+
+            return wordCount;
+        }
+    }*/
+
+
+//assertEquals(1, WordCount.count(" eins<html"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild>\" > zwei"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"bild>\" > zwei"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild>\" keinwort> zwei"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild>\" src=\"bild.png\" >zwei"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild\" keinwort>zwei"));
+//      assertEquals(1, WordCount.count(" eins<img alt=\"<bild\" keinwort"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild\" keinwort> zwei"));
+//      assertEquals(1, WordCount.count(" eins<img alt=\"<bild keinwort> keinwort"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild keinwort keinwort\">zwei"));
+//      assertEquals(2, WordCount.count(" eins<img alt=\"<bild keinwort< keinwort\">zwei"));

@@ -1,4 +1,4 @@
-package firsttry;
+package secondtry;
 
 import org.junit.jupiter.api.Test;
 

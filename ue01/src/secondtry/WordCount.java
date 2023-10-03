@@ -1,7 +1,4 @@
-package firsttry;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+package secondtry;
 
 public class WordCount {
 

@@ -1,5 +1,6 @@
 package secondtry;
 
+/*
 /**
  * Diese Klasse enthält eine Methode zum Zählen der Wörter in Texten-> HTML-Tags werden in  speziellen Fällen ignoriet
  */

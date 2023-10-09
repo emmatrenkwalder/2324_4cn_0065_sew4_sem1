@@ -5,6 +5,9 @@ package secondtry;
  */
 public class WordCount {
 
+    public static void main(String[] args) {
+
+    }
     /**
      * Diese Methode zählt die Wörter in einem Text, wobei HTML-Tags und Sonderzeichen berücksichtigt werden.
      *
@@ -12,141 +15,190 @@ public class WordCount {
      * @return Die Anzahl der Wörter im Text.
      */
     public static int count(String words) {
-        words = onlyOneQuote(words);
-        words = removeBackslashFromQuotes(words);
-        words = removeTextInsideTags(words);
-
+        words=onlyoneg(words);
+        words=deletebackgans(words);
+        words=gansintags(words);
+       // System.out.println(words);
         String newText = words.replaceAll("<[ A-z0-9\\\"=]+>", " ");
         String filtered = newText.replaceAll("\\s+", " ");
 
-        if (checkIfTagOpen(filtered)) {
-            if (whichOpen(filtered)) {
+        //System.out.println(filtered);
+        // check for <>
+        //System.out.println("Filtered:     "+filtered);
+        //Tags open?????
+        if(checkIfTagOpen(filtered)){
+            if(whichOpen(filtered)){
                 // nach links offen
                 filtered = words.replaceAll("<[ A-z0-9\\\"=>]+>", " ");
                 filtered = newText.replaceAll("\\s+", " ");
-            } else {
-                // nach rechts offen
-                filtered = filtered.substring(0, filtered.indexOf("<"));
+            }else{
+                //nach rechts offen
+                filtered= filtered.substring(0,filtered.indexOf("<"));
             }
         }
 
-        for (char c : filtered.toCharArray()) {
-            if (c == '<' || c == '>') {
+
+        for (char c :  filtered.toCharArray()) {
+            //System.out.println("#"+c);
+            if(c == '<' || c== '>'){
+                //System.out.println("jetzt"+c);
                 return count(filtered);
+            }else{
+                continue;
             }
         }
 
-        // Sonderzeichen check
+
+/*
+                for (int i = 0; i < countList.length; i++) {
+                    System.out.println("" + countList[i] + "");
+                }
+
+ */
+        //Sonderzeichen check
         filtered = filtered.replaceAll("[^A-z0-9 ]", " ");
         filtered = filtered.replaceAll("\\s+", " ");
+        //System.out.println(filtered);
+        //System.out.println(countList.length);
 
         String countList[] = filtered.split(" ");
         if (countList.length > 1) {
             if (countList[0].equals("")) {
                 return countList.length - 1;
-            } else {
+            }else{
                 return countList.length;
             }
-        } else if (countList.length == 1 && countList[0] != "") {
+        }else if(countList.length == 1 && countList[0] != ""){
             return countList.length;
         }
 
         return 0;
     }
-
     /**
      * Überprüft, ob im Text HTML-Tags offen oder geschlossen sind.
      *
      * @param str Der Text, der überprüft werden soll.
      * @return {@code true}, wenn HTML-Tags offen sind, ansonsten {@code false}.
      */
-    public static boolean checkIfTagOpen(String str) {
-        int c = 0;
+    public static boolean checkIfTagOpen(String str){
+        int c=0;
         str = str.replaceAll("\"([^\"]*)\"", "");
 
-        for (char cha : str.toCharArray()) {
-            if (cha == '<' || cha == '>') {
+        for(char cha : str.toCharArray()){
+            if(cha == '<' || cha == '>'){
                 c++;
             }
         }
-        return c % 2 != 0;
+        if(c%2==0) {
+            return false;
+        }else{
+            return true;
+        }
     }
-
     /**
      * Bestimmt, ob im Text mehr HTML-Tags geöffnet oder geschlossen sind.
      *
      * @param str Der Text, der überprüft werden soll.
      * @return {@code true}, wenn mehr HTML-Tags geöffnet sind, ansonsten {@code false}.
      */
-    public static boolean whichOpen(String str) {
+    public static boolean whichOpen(String str){
+
         str = str.replaceAll("\"([^\"]*)\"", "");
-        int oc = 0;
-        int cc = 0;
-        for (char cha : str.toCharArray()) {
-            if (cha == '<') {
+        //str = str.replaceAll("\\s+", " ");
+        //System.out.println(str);
+        int oc=0;
+        int cc=0;
+        for(char cha : str.toCharArray()){
+            if(cha =='<'){
                 oc++;
-            } else if (cha == '>') {
+            }else if(cha =='>'){
                 cc++;
             }
         }
-        return oc > cc;
+        //System.out.println("oc "+oc);
+        //System.out.println("cc "+cc);
+        if(oc>cc){
+            //nach rechts offen
+            return false;
+        }else{
+            // nach links offen
+            return true;
+        }
     }
+    public static String gansintags(String str){
+        //String anfang=str.substring(0,str.indexOf("<"));
+        //String ende=str.substring(str.lastIndexOf(">")+1);
+        //System.out.println(anfang);
+        //System.out.println(ende);
+        int openind=str.indexOf("<");
+        int closeind=str.lastIndexOf(">");
+        int firstg=str.indexOf("\"");
+        int lastg=0;
+        //System.out.println(str);
+        for (int i = firstg+1; i < str.length(); i++) {
+            //System.out.print(str.charAt(i));
+            if(str.charAt(i)=='"'){
+                lastg=i;
+                break;
+            }
+        }
+        /*
+        System.out.println();
+        System.out.println(str);
+        System.out.println(openind+" : "+closeind);
+        System.out.println(openind+" "+firstg);
+        System.out.println(closeind+" "+lastg);
+         */
+        String ret=str;
+        if(openind!=-1&&closeind!=-1&&openind<firstg&&lastg<closeind){
+            //str=str.substring(str.indexOf("<"),str.lastIndexOf(">")+1);
+            //str = str.replaceAll("\"([^\"]*)\"", "");
+            //System.out.println(firstg);
+            ret=str.substring(0,firstg);
+            ret+=str.substring(lastg+1);
+           // System.out.println("STR:"+ret);
+        }
 
+        //return anfang+str+ende;
+        return ret;
+    }
     /**
      * deleted doppelte Anführungszeichen im Text.
      *
      * @param str Der Text der aus dem doppelte Anführungszeichen entfernt werden soll.
      * @return Der Text ohne doppelte Anführungszeichen.
      */
-    public static String removeBackslashFromQuotes(String str) {
+    public static String deletebackgans(String str){
         return str.replace("\\\"", "");
     }
-
     /**
      * Entfernt ein einzelnes " im Text, wenn nur eines vorhanden ist.
      *
      * @param str Der Text, aus dem ein einzelnes " entfernt werden soll.
      * @return Der Text ohne das einzelne Anführungszeichen.
      */
-    public static String onlyOneQuote(String str) {
-        int c = 0;
+    public static String onlyoneg(String str){
+        int c=0;
         for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == '"') {
+            if(str.charAt(i)=='"'){
                 c++;
             }
         }
-        if (c == 1) {
-            return str.substring(0, str.indexOf("\"")) + str.substring(str.indexOf("\"") + 1);
+        if(c==1){
+            return str.substring(0,str.indexOf("\""))+str.substring(str.indexOf("\"")+1);
         }
         return str;
     }
-
-    /**
-     * Entfernt Text innerhalb von HTML-Tags mit den tags
-     *
-     * @param str Der Text, aus dem Text innerhalb von HTML-Tags entfernt werden soll.
-     * @return Der Text ohne den Inhalt der HTML-Tags.
-     */
-    public static String removeTextInsideTags(String str) {
-        int openind = str.indexOf("<");
-        int closeind = str.lastIndexOf(">");
-        int firstg = str.indexOf("\"");
-        int lastg = 0;
-
-        for (int i = firstg + 1; i < str.length(); i++) {
-            if (str.charAt(i) == '"') {
-                lastg = i;
-                break;
-            }
-        }
-
-        String ret = str;
-        if (openind != -1 && closeind != -1 && openind < firstg && lastg < closeind) {
-            ret = str.substring(0, firstg) + str.substring(lastg + 1);
-        }
-        return ret;
-    }
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -171,7 +223,7 @@ public class WordCount {
 
 
 
-//hat sogar funktioniert
+
 /*
 public class WordCount {
 

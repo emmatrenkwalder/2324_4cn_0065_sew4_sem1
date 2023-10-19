@@ -4,7 +4,7 @@ package secondtry;
  * während HTML-Tags und Sonderzeichen berücksichtigt werden.
  */
 public class WordCount {
-
+//Emma Trenkwalder
     public static void main(String[] args) {
 
     }
@@ -57,7 +57,7 @@ public class WordCount {
  */
         //Sonderzeichen check
         filtered = filtered.replaceAll("[^A-z0-9 ]", " ");
-        filtered = filtered.replaceAll("\\s+", " ");
+        filtered = filtered.replaceAll("\\s+", " "); // ganze wörter
         //System.out.println(filtered);
         //System.out.println(countList.length);
 

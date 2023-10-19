@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/UE03/UE03.iml" filepath="$PROJECT_DIR$/UE03/UE03.iml" />
       <module fileurl="file://$PROJECT_DIR$/sew4_sem1j.iml" filepath="$PROJECT_DIR$/sew4_sem1j.iml" />
       <module fileurl="file://$PROJECT_DIR$/ue01/ue01.iml" filepath="$PROJECT_DIR$/ue01/ue01.iml" />
       <module fileurl="file://$PROJECT_DIR$/ue02/ue02.iml" filepath="$PROJECT_DIR$/ue02/ue02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ue01/ue03.iml" filepath="$PROJECT_DIR$/ue01/ue03.iml" />
     </modules>
   </component>
 </project>

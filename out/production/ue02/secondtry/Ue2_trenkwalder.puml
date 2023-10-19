@@ -1,0 +1,21 @@
+@startuml
+[*] --> NOWORD : Start
+
+NOWORD --> INWORD : Wenn Buchstabe gefunden
+NOWORD --> INTAG : Wenn '<' gefunden
+NOWORD --> NOWORD : Sonst
+
+INWORD --> INTAG : Wenn '<' gefunden
+INWORD --> NOWORD : Wenn kein Buchstabe gefunden
+INWORD --> INWORD : Sonst
+
+INTAG --> NOWORD : Wenn '>' gefunden
+INTAG --> INSTRING : Wenn '"' gefunden
+INTAG --> INTAG : Sonst
+
+INSTRING --> INTAG : Wenn '"' gefunden
+INSTRING --> ESCAPED : Wenn '\\' gefunden
+INSTRING --> INSTRING : Sonst
+
+ESCAPED --> INSTRING : Zurück zu INSTRING
+@enduml

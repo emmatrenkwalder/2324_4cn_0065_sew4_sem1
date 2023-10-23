@@ -3,31 +3,32 @@ package firsttry;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import java.io.IOException;
+import java.io.StringReader;
+
 /**
  * Testfälle für die CSVReader-Klasse.
  * Autor: Emma Trenkwalder
  * Klasse: 4CN
  */
 
+
+import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import java.io.IOException;
+import java.io.StringReader;
+
  class CSVReaderTest {
 
     @Test
-    public void testCSVReaderWithEscapedQuotes() throws IOException {
-        CSVReader csvReader = new CSVReader("\"Emma\",\"17\",\"in \"\"Schwadorf\"");
-        String[] data = csvReader.split();
+    public void testSkipInitialSpace() throws IOException {
+        String inputLine = "  Emma,  17, NÖ";
+        CSVReader csvReader = new CSVReader(inputLine);
 
-        assertEquals("Emma", data[0]);
-        assertEquals("17", data[1]);
-        assertEquals("in \"Schwadorf", data[2]);
-    }
+        String[] row = csvReader.split(inputLine);
+        String[] expectedRow = { "lio", "17", "fünfhaus" };
 
-    @Test
-    public void testCSVReaderWithCustomDelimiterAndEscapedQuotes() throws IOException {
-        CSVReader csvReader = new CSVReader("'lio' | '17' | '1150, wien'", '|', '\'');
-        String[] data = csvReader.split();
-
-        assertEquals("lio", data[0]);
-        assertEquals("17", data[1]);
-        assertEquals("1150, wien", data[2]);
+        assertArrayEquals(expectedRow, row);
     }
 }
+
+

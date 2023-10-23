@@ -79,7 +79,7 @@ class WordCount {
          * @param context Eine Instanz von WordCount
          * @return Der neue Zustand
          */
-        abstract State handleChar(char c, WordCount context);
+        abstract State handleChar(char c, WordCount context); //->welcher Zustand als nächstes eingenommen wird, basierend auf dem aktuellen Zeichen und dem aktuellen Zustand.
     }
 
     // Zählervariable für die Wortanzahl

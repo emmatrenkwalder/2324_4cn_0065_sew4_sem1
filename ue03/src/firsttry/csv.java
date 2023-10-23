@@ -30,6 +30,8 @@ class CSVReader {
             } else if (c == delimiter && !insideQuotedField) {
                 result.add(field.toString());
                 field.setLength(0);
+            } else if (c == delimiter && insideQuotedField) {
+                field.append(c);
             } else {
                 field.append(c);
             }
@@ -37,8 +39,14 @@ class CSVReader {
 
         result.add(field.toString());
         if (insideQuotedField) {
-            throw new IOException("Unmatched quote in CSV datei .");
+            throw new IOException("Unmatched quote in CSV data.");
         }
+
+        for (int i = 0; i < result.size(); i++) {
+            String fieldData = result.get(i);
+            result.set(i, fieldData.replace("" + quote + quote, "" + quote));
+        }
+
         return result.toArray(new String[0]);
     }
 }

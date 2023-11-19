@@ -21,13 +21,10 @@ import java.io.StringReader;
 
     @Test
     public void testSkipInitialSpace() throws IOException {
-        String inputLine = "  Emma,  17, NÖ";
-        CSVReader csvReader = new CSVReader(inputLine);
-
-        String[] row = csvReader.split(inputLine);
-        String[] expectedRow = { "lio", "17", "fünfhaus" };
-
-        assertArrayEquals(expectedRow, row);
+        CSVReader cr = new CSVReader(',', '\"', true);
+        // B.4
+        assertEquals("[data, emma, tr\"n+k]", cr.split("data,  emma,     \"tr\\\"n+k\"").toString());
+        assertEquals("[data , emma , tr\"n+k]", cr.split("data ,    emma ,     \"tr\\\"n+k\"").toString());
     }
 }
 
